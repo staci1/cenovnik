@@ -1,0 +1,102 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.title{
+    margin-top: 0px !important;
+}
+
+.title>h1{
+    display: inline;
+    vertical-align: middle;
+    line-height: 96px !important;
+    margin-left: 20px !important;
+}
+
+#logo {
+    display: inline;
+    width: 196px;
+    height: 96px;
+}
+
+.btn-group{
+  margin-left: 20px;
+}
+
+.block{
+    margin-bottom: 20px;
+}
+
+.inline-block{
+    display: inline-block;
+    min-width: 400px;
+}
+
+.inline-block span{
+    min-width: 100px;
+}
+
+.block input{
+    margin-left: 10px;
+}
+
+#price-tbl .checkbox{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+#price-row {
+    /*background-color: #A0A0A0;*/
+    font-weight: bold;
+}
+
+.highlight-col {
+    background-color: #d9edf7;
+}
+
+@media screen and (max-width: 914px) {
+    .block > :first-child {
+        margin-bottom: 20px;
+    }
+
+    #currency {
+        margin-top: 20px;
+    }
+
+    .title>h1{
+        line-height: 66px;
+        font-size: 26px;
+    }
+
+    #logo {
+        width: 166px;
+        height: 66px;
+    }
+}
+
+@media screen and (max-width: 690px) {
+    .title>h1{
+        line-height: 46px;
+        font-size: 20px;
+    }
+
+    #logo {
+        display: inline;
+        width: 126px;
+        height: 46px;
+    }
+}
+
+@media screen and (max-width: 559px) {
+    .title>h1{
+        line-height: 40px;
+        font-size: 20px;
+    }
+
+    #logo {
+        display: inline;
+        width: 90px;
+        height: 40px;
+    }
+}

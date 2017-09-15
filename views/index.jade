@@ -1,0 +1,64 @@
+extends layout
+
+block content
+    div.page-header.title
+        img#logo(src=`/images/${logo}`)
+        h1= title
+    div.block
+        div.inline-block
+            span Partner name:
+            input#discount(value=partner_name, disabled=true)
+        div.inline-block
+            span Nubmer of employees:
+            input#numEmployees(value="20", type="number")
+    div.block
+        div.inline-block
+            span Discount:
+            input#discount(value=`${discount}%`, disabled=true)
+        div.inline-block
+            span Type of payment:
+            div(class="btn-group", data-toggle="buttons")
+              label.btn.btn-primary.active
+                input(type="radio", name="payment", autocomplete="off", value="onetime", checked=true)
+                | Yearly
+              label.btn.btn-primary
+                input(type="radio", name="payment", autocomplete="off", value="monthly")
+                | Monthly
+        div.inline-block#currency
+            span Currency:
+            div(class="btn-group", data-toggle="buttons")
+              label.btn.btn-primary.active
+                input(type="radio", name="currency", autocomplete="off", value="euro", checked=true)
+                | EURO
+              label.btn.btn-primary
+                input(type="radio", name="currency", autocomplete="off", value="mkd")
+                | MKD
+    div.table-responsive
+        table.table.table-striped.table-bordered#price-tbl
+            thead
+                tr
+                    th #
+                    th VapourApps Product
+                    th(colspan="3") VapourApps Regular
+                    th(colspan="3") VapourApps Partner
+                tr
+                    th
+                    th
+                    th(colspan="2") First year (one of two options)
+                    th After 12 months
+                    th(colspan="2") First year (one of two options)
+                    th After 12 months
+                tr
+                    th
+                    th
+                    th OneTime
+                    th Monthly
+                    th Monthly
+                    th.highlight-col.onetime-head OneTime
+                    th.monthly-head Monthly
+                    th Monthly
+            tbody
+    button#export Export
+    script.
+        var prices = !{prices}
+        var discount = (100 - !{discount})/100
