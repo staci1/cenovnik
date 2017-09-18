@@ -1,15 +1,4 @@
-"use strict";
-
-var services = {
-    1: { id: "directory", label: "VA Directory" },
-    2: { id: "mail", label: "VA Mail" },
-    3: { id: "owncloud", label: "VA Owncloud" },
-    4: { id: "monitoring", label: "VA Monitoring" },
-    5: { id: "backup", label: "VA Backup" },
-    6: { id: "proxy", label: "VA Proxy" },
-    7: { id: "vpn", label: "VA VPN" },
-    8: { id: "projects", label: "VA Projects (Redmine)" }
-};
+'use strict';
 
 var klasi = ['onetime', 'monthly', 'afteryear', 'onetimeP', 'monthlyP', 'afteryearP'];
 
@@ -30,18 +19,18 @@ function changeAllPrices(numEmployees, kurs) {
     for (var k = 0; k < klasi.length; k++) {
         var sum = 0,
             klasa = klasi[k];
-        for (var i in services) {
-            var service = services[i].id;
-            var p = prices[service],
-                q = p['q'];
+        for (var i = 0; i < services.length; i++) {
+            var service = services[i];
+            var monthly = service.m,
+                q = service.q;
             var currentPrice = 0;
             var currentElem = $('#' + i + ' .' + klasa);
             if (klasa.indexOf('monthly') > -1) {
-                currentPrice = p['m'] + (numEmployees - 20) * q;
+                currentPrice = monthly + (numEmployees - 20) * q;
             } else if (klasa.indexOf('onetime') > -1) {
-                currentPrice = getOneTimePrice(p['m']) + (numEmployees - 20) * q * 12;
+                currentPrice = getOneTimePrice(monthly) + (numEmployees - 20) * q * 12;
             } else if (klasa.indexOf('afteryear') > -1) {
-                currentPrice = p['m'] / 2 + (numEmployees - 20) * q;
+                currentPrice = monthly / 2 + (numEmployees - 20) * q;
             }
             if (klasa.slice(-1) === 'P') currentPrice *= discount;
             currentPrice *= kurs;
@@ -58,31 +47,25 @@ function changeAllPrices(numEmployees, kurs) {
 $(function () {
     $('.btn').button();
     var tbody = $('#price-tbl tbody');
-    var keys = Object.keys(services);
-    keys.sort();
-    for (var i = 0; i < keys.length; i++) {
-        var key = keys[i],
-            service = services[key],
-            id = service.id,
-            p = prices[id];
-        tbody.append("\n            <tr id=" + key + " data-checked=0><td>" + key + "</td>\n            <td>\n                <div class=\"checkbox\">\n                    <label><input type=\"checkbox\" name=\"service\" value=" + service.id + "><a href=\"" + prices[service.id].brochure_url + "\" target=\"_blank\"\">" + service.label + "</a></label>\n                </div>\n            </td>\n            <td class=\"onetime\" data-price=0>" + Math.round(getOneTimePrice(p.m)) + "</td>\n            <td class=\"monthly\" data-price=0>" + Math.round(p.m) + "</td>\n            <td class=\"afteryear\" data-price=0>" + Math.round(p.m / 2) + "</td>\n            <td class=\"onetimeP highlight-col\" data-price=0>" + Math.round(getOneTimePrice(p.m) * discount) + "</td>\n            <td class=\"monthlyP\" data-price=0>" + Math.round(p.m * discount) + "</td>\n            <td class=\"afteryearP\" data-price=0>" + Math.round(p.m / 2 * discount) + "</td></tr>\n        ");
+    for (var i = 0; i < services.length; i++) {
+        var service = services[i],
+            monthly = service.m;
+        tbody.append('\n            <tr id=' + i + ' data-checked=0><td>' + (i + 1) + '</td>\n            <td>\n                <div class="checkbox">\n                    <label><input type="checkbox" name="service" value=' + i + '><a href="' + service.brochure_url + '" target="_blank"">' + service.name + '</a></label>\n                </div>\n            </td>\n            <td class="onetime" data-price=0>' + Math.round(getOneTimePrice(monthly)) + '</td>\n            <td class="monthly" data-price=0>' + Math.round(monthly) + '</td>\n            <td class="afteryear" data-price=0>' + Math.round(monthly / 2) + '</td>\n            <td class="onetimeP highlight-col" data-price=0>' + Math.round(getOneTimePrice(monthly) * discount) + '</td>\n            <td class="monthlyP" data-price=0>' + Math.round(monthly * discount) + '</td>\n            <td class="afteryearP" data-price=0>' + Math.round(monthly / 2 * discount) + '</td></tr>\n        ');
     }
-    tbody.append("\n        <tr id=\"price-row\">\n            <td></td>\n            <td>Sum</td>\n            <td data-klasa='onetime' class='price'>0</td>\n            <td data-klasa='monthly' class='price'>0</td>\n            <td data-klasa='afteryear' class='price'>0</td>\n            <td data-klasa='onetimeP' class='price highlight-col onetime-head'>0</td>\n            <td data-klasa='monthlyP' class='price monthly-head'>0</td>\n            <td data-klasa='afteryearP' class='price'>0</td>\n        </tr>\n    ");
+    tbody.append('\n        <tr id="price-row">\n            <td></td>\n            <td>Sum</td>\n            <td data-klasa=\'onetime\' class=\'price\'>0</td>\n            <td data-klasa=\'monthly\' class=\'price\'>0</td>\n            <td data-klasa=\'afteryear\' class=\'price\'>0</td>\n            <td data-klasa=\'onetimeP\' class=\'price highlight-col onetime-head\'>0</td>\n            <td data-klasa=\'monthlyP\' class=\'price monthly-head\'>0</td>\n            <td data-klasa=\'afteryearP\' class=\'price\'>0</td>\n        </tr>\n    ');
     $('#numEmployees').focusout(function () {
         var numEmployees = parseInt($(this).val());
         changeAllPrices(numEmployees, 1);
     });
     $("#price-tbl").on("change", "[name='service']", function () {
         var me = $(this);
-        var service = me.val();
-        var p = prices[service];
-        var q = p['q'];
+        var serviceNum = me.val();
+        var service = services[serviceNum],
+            monthly = service.m,
+            q = service.q;
         var numEmployees = parseInt($('#numEmployees').val());
         var checked = me.is(':checked');
         var parentRow = me.closest('tr');
-        var serviceKey = Object.keys(services).filter(function (key) {
-            return services[key].id === service;
-        })[0];
         var kurs = 1;
         if ($('[name="currency"]:checked').val() === "mkd") {
             kurs = 61.695;
@@ -101,7 +84,7 @@ $(function () {
                 klasa = klasi[k];
             var rows = $('.' + klasa);
             var sumPrice = $('.price[data-klasa="' + klasa + '"]');
-            var checkedPrice = $('#' + serviceKey + ' .' + klasa);
+            var checkedPrice = $('#' + serviceNum + ' .' + klasa);
 
             for (var i = 0; i < rows.length; i++) {
                 var row = $(rows[i]);
@@ -113,11 +96,11 @@ $(function () {
             if (checked) {
                 var currentPrice = 0;
                 if (klasa.indexOf('monthly') > -1) {
-                    currentPrice = p['m'] + (numEmployees - 20) * q;
+                    currentPrice = monthly + (numEmployees - 20) * q;
                 } else if (klasa.indexOf('onetime') > -1) {
-                    currentPrice = getOneTimePrice(p['m']) + (numEmployees - 20) * q * 12;
+                    currentPrice = getOneTimePrice(monthly) + (numEmployees - 20) * q * 12;
                 } else if (klasa.indexOf('afteryear') > -1) {
-                    currentPrice = p['m'] / 2 + (numEmployees - 20) * q;
+                    currentPrice = monthly / 2 + (numEmployees - 20) * q;
                 }
                 if (klasa.slice(-1) === 'P') currentPrice *= discount;
                 currentPrice *= kurs;
@@ -139,11 +122,11 @@ $(function () {
         }
     });
     $('[name="currency"]').change(function (e) {
+        var numEmployees = parseInt($("#numEmployees").val());
         if (e.target.value === "euro") {
-            location.reload();
+            changeAllPrices(numEmployees, 1);
         } else {
             var kurs = 61.695;
-            var numEmployees = parseInt($("#numEmployees").val());
             changeAllPrices(numEmployees, kurs);
         }
     });
@@ -153,7 +136,7 @@ $(function () {
         for (var i = 0; i < checkedRows.length; i++) {
             var checkedRow = $(checkedRows[i]);
             var price = checkedRow.find(".highlight-col");
-            csv += services[checkedRow.attr('id')].label + "," + price.html() + "\n";
+            csv += services[checkedRow.attr('id')].name + "," + price.html() + "\n";
         }
         var check = $('.btn-group input:checked');
         var paymentType = check.val();

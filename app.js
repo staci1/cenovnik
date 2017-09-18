@@ -6,19 +6,30 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var router = express.Router();
 var fs = require('fs');
-var jsonFolder = './models/partners/';
+var chokidar = require('chokidar');
+var jsonFolder = 'models/partners/';
 var partnersObj = {};
 
-fs.readdir(jsonFolder, (err, files) => {
-    if (err) throw err;
-    files.forEach(file => {
-        fs.readFile(jsonFolder + file, 'utf8', function (err, data) {
-            if (err) throw err;
-            var obj = JSON.parse(data);
-            partnersObj[obj.id] = obj;
+
+function createJsonObj(){
+    fs.readdir(jsonFolder, (err, files) => {
+        if (err) throw err;
+        files.forEach(file => {
+            fs.readFile(jsonFolder + file, 'utf8', function (err, data) {
+                if (err) throw err;
+                var obj = JSON.parse(data);
+                partnersObj[obj.id] = obj;
+            });
         });
     });
-})
+}
+
+createJsonObj();
+
+chokidar.watch(jsonFolder, {ignored: /(^|[\/\\])\../, ignoreInitial:true, persistent: true}).on('all', (event, path) => {
+    console.log(event, path);
+    createJsonObj();
+});
 
 //var routes = require('./routes/index');
 
@@ -40,7 +51,7 @@ app.use('/', router.get('/:id', function(req, res, next) {
     var id = req.params.id;
     if(id in partnersObj){
         var obj = partnersObj[id];
-        res.render('index', { title: 'VapourApps Product Configurator', partner_name: obj.name, discount: obj.discount, logo: obj.logo, prices: JSON.stringify(obj.services) });
+        res.render('index', { title: 'VapourApps Product Configurator', partner_name: obj.name, discount: obj.discount, logo: obj.logo, services: JSON.stringify(obj.services) });
     }else{
         var err = new Error('Not Found');
         err.status = 404;
