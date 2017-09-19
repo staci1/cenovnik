@@ -19,24 +19,19 @@ body {
     height: 96px;
 }
 
-.btn-group{
-    margin-left: 10px;
-}
-
-.btn-group label{
-    width: 80px;
-}
-
-.block{
+#block > div {
     margin-bottom: 20px;
 }
 
-.inline-block{
-    display: inline-block;
-    min-width: 400px;
+#block input, .buttons{
+    margin-left: 10px;
 }
 
-.inline-block span{
+.buttons label{
+    width: 80px;
+}
+
+#block span{
     display: inline-block;
 }
 
@@ -50,10 +45,6 @@ body {
 
 .column3{
     width: 70px;
-}
-
-.block input{
-    margin-left: 10px;
 }
 
 #price-tbl th, td:not(:nth-child(2)) {
@@ -77,21 +68,13 @@ body {
     margin-left: 20px;
 }
 
-@media screen and (max-width: 1314px) {
-    #currency {
-        margin-top: 20px;
-    }
-
+@media screen and (max-width: 992px) {
     .column3{
         width: 100px;
     }
 }
 
 @media screen and (max-width: 914px) {
-    .block > :first-child {
-        margin-bottom: 20px;
-    }
-
     .title>h1{
         line-height: 66px;
         font-size: 26px;
@@ -100,32 +83,19 @@ body {
     #logo {
         height: 66px;
     }
-
-    .inline-block span{
-        width: 150px;
-    }
 }
 
-@media screen and (max-width: 690px) {
+@media screen and (max-width: 767px) {
     .title>h1{
         line-height: 46px;
         font-size: 20px;
     }
 
     #logo {
-        display: inline;
         height: 46px;
     }
-}
 
-@media screen and (max-width: 559px) {
-    .title>h1{
-        line-height: 40px;
-        font-size: 20px;
-    }
-
-    #logo {
-        display: inline;
-        height: 40px;
+    .column1, .column3{
+        width: 150px;
     }
 }

@@ -4,29 +4,28 @@ block content
     div.page-header.title
         img#logo(src=`images/${logo}`)
         h1= title
-    div.block
-        div.inline-block
+    div#block.row
+        div.col-md-4.col-sm-6.col-xs-12
             span.column1 Partner name:
             input#discount(value=partner_name, disabled=true)
-        div.inline-block
+        div.col-md-8.col-sm-6.col-xs-12
             span.column2 Number of employees:
             input#numEmployees(value="20", type="number")
-    div.block
-        div.inline-block
+        div.col-md-4.col-sm-6.col-xs-12
             span.column1 Discount:
             input#discount(value=`${discount}%`, disabled=true)
-        div.inline-block
+        div.col-lg-4.col-md-8.col-sm-6.col-xs-12
             span.column2 Type of payment:
-            div(class="btn-group", data-toggle="buttons")
+            div(class="btn-group buttons", data-toggle="buttons")
               label.btn.btn-primary.active
                 input(type="radio", name="payment", autocomplete="off", value="onetime", checked=true)
                 | Yearly
               label.btn.btn-primary
                 input(type="radio", name="payment", autocomplete="off", value="monthly")
                 | Monthly
-        div.inline-block#currency
+        div.col-lg-4.col-md-12
             span.column3 Currency:
-            div(class="btn-group", data-toggle="buttons")
+            div(class="btn-group buttons", data-toggle="buttons")
               label.btn.btn-primary.active
                 input(type="radio", name="currency", autocomplete="off", value="euro", checked=true)
                 | EURO
