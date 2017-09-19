@@ -38,10 +38,14 @@ function changeAllPrices(numEmployees, kurs) {
                 sum += currentPrice;
                 currentElem.data("price", currentPrice);
             }
-            currentElem.html(Math.round(currentPrice));
+            currentElem.html(getFormatedPrice(currentPrice));
         }
-        $('.price[data-klasa="' + klasa + '"]').html(Math.round(sum));
+        $('.price[data-klasa="' + klasa + '"]').html(getFormatedPrice(sum));
     }
+}
+
+function getFormatedPrice(num) {
+    return Math.round(num).toLocaleString('mk-MK', { maximumFractionDigits: 2 });
 }
 
 $(function () {
@@ -50,12 +54,21 @@ $(function () {
     for (var i = 0; i < services.length; i++) {
         var service = services[i],
             monthly = service.m;
-        tbody.append('\n            <tr id=' + i + ' data-checked=0><td>' + (i + 1) + '</td>\n            <td>\n                <div class="checkbox">\n                    <label><input type="checkbox" name="service" value=' + i + '><a href="' + service.brochure_url + '" target="_blank"">' + service.name + '</a></label>\n                </div>\n            </td>\n            <td class="onetime" data-price=0>' + Math.round(getOneTimePrice(monthly)) + '</td>\n            <td class="monthly" data-price=0>' + Math.round(monthly) + '</td>\n            <td class="afteryear" data-price=0>' + Math.round(monthly / 2) + '</td>\n            <td class="onetimeP highlight-col" data-price=0>' + Math.round(getOneTimePrice(monthly) * discount) + '</td>\n            <td class="monthlyP" data-price=0>' + Math.round(monthly * discount) + '</td>\n            <td class="afteryearP" data-price=0>' + Math.round(monthly / 2 * discount) + '</td></tr>\n        ');
+        tbody.append('\n            <tr id=' + i + ' data-checked=0><td>' + (i + 1) + '</td>\n            <td>\n                <div class="checkbox">\n                    <label><input type="checkbox" name="service" value=' + i + '><a href="' + service.brochure_url + '" target="_blank"">' + service.name + '</a></label>\n                </div>\n            </td>\n            <td class="onetime" data-price=0>' + getFormatedPrice(getOneTimePrice(monthly)) + '</td>\n            <td class="monthly" data-price=0>' + getFormatedPrice(monthly) + '</td>\n            <td class="afteryear" data-price=0>' + getFormatedPrice(monthly / 2) + '</td>\n            <td class="onetimeP highlight-col" data-price=0>' + getFormatedPrice(getOneTimePrice(monthly) * discount) + '</td>\n            <td class="monthlyP" data-price=0>' + getFormatedPrice(monthly * discount) + '</td>\n            <td class="afteryearP" data-price=0>' + getFormatedPrice(monthly / 2 * discount) + '</td></tr>\n        ');
     }
     tbody.append('\n        <tr id="price-row">\n            <td></td>\n            <td>Sum</td>\n            <td data-klasa=\'onetime\' class=\'price\'>0</td>\n            <td data-klasa=\'monthly\' class=\'price\'>0</td>\n            <td data-klasa=\'afteryear\' class=\'price\'>0</td>\n            <td data-klasa=\'onetimeP\' class=\'price highlight-col onetime-head\'>0</td>\n            <td data-klasa=\'monthlyP\' class=\'price monthly-head\'>0</td>\n            <td data-klasa=\'afteryearP\' class=\'price\'>0</td>\n        </tr>\n    ');
     $('#numEmployees').focusout(function () {
         var numEmployees = parseInt($(this).val());
-        changeAllPrices(numEmployees, 1);
+        var kurs = 1;
+        if ($('[name="currency"]:checked').val() === "mkd") {
+            kurs = 61.695;
+        }
+        changeAllPrices(numEmployees, kurs);
+    });
+    $('#numEmployees').keyup(function (event) {
+        if (event.keyCode == 13) {
+            $(this).blur();
+        }
     });
     $("#price-tbl").on("change", "[name='service']", function () {
         var me = $(this);
@@ -105,10 +118,10 @@ $(function () {
                 if (klasa.slice(-1) === 'P') currentPrice *= discount;
                 currentPrice *= kurs;
                 checkedPrice.data("price", currentPrice);
-                sumPrice.html(Math.round(currentSum + currentPrice));
+                sumPrice.html(getFormatedPrice(currentSum + currentPrice));
             } else {
                 checkedPrice.data("price", 0);
-                sumPrice.html(Math.round(currentSum));
+                sumPrice.html(getFormatedPrice(currentSum));
             }
         }
     });

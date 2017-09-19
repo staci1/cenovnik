@@ -35,10 +35,14 @@ function changeAllPrices(numEmployees, kurs){
                 sum += currentPrice;
                 currentElem.data("price", currentPrice);
             }
-            currentElem.html(Math.round(currentPrice));
+            currentElem.html(getFormatedPrice(currentPrice));
         }
-        $('.price[data-klasa="'+ klasa +'"]').html(Math.round(sum));
+        $('.price[data-klasa="'+ klasa +'"]').html(getFormatedPrice(sum));
     }
+}
+
+function getFormatedPrice(num){
+    return Math.round(num).toLocaleString('mk-MK', {maximumFractionDigits:2});
 }
 
 
@@ -54,12 +58,12 @@ $(function(){
                     <label><input type="checkbox" name="service" value=${i}><a href="${service.brochure_url}" target="_blank"">${service.name}</a></label>
                 </div>
             </td>
-            <td class="onetime" data-price=0>${Math.round(getOneTimePrice(monthly))}</td>
-            <td class="monthly" data-price=0>${Math.round(monthly)}</td>
-            <td class="afteryear" data-price=0>${Math.round(monthly / 2)}</td>
-            <td class="onetimeP highlight-col" data-price=0>${Math.round(getOneTimePrice(monthly) * discount)}</td>
-            <td class="monthlyP" data-price=0>${Math.round(monthly * discount)}</td>
-            <td class="afteryearP" data-price=0>${Math.round((monthly/ 2) * discount)}</td></tr>
+            <td class="onetime" data-price=0>${getFormatedPrice(getOneTimePrice(monthly))}</td>
+            <td class="monthly" data-price=0>${getFormatedPrice(monthly)}</td>
+            <td class="afteryear" data-price=0>${getFormatedPrice(monthly / 2)}</td>
+            <td class="onetimeP highlight-col" data-price=0>${getFormatedPrice(getOneTimePrice(monthly) * discount)}</td>
+            <td class="monthlyP" data-price=0>${getFormatedPrice(monthly * discount)}</td>
+            <td class="afteryearP" data-price=0>${getFormatedPrice((monthly/ 2) * discount)}</td></tr>
         `);
     }
     tbody.append(`
@@ -76,7 +80,16 @@ $(function(){
     `);
     $('#numEmployees').focusout(function(){
         var numEmployees = parseInt($(this).val());
-        changeAllPrices(numEmployees, 1);
+        var kurs = 1;
+        if($('[name="currency"]:checked').val() === "mkd"){
+            kurs = 61.695;
+        }
+        changeAllPrices(numEmployees, kurs);
+    });
+    $('#numEmployees').keyup(function(event){
+        if(event.keyCode == 13){
+            $(this).blur();
+        }
     });
     $("#price-tbl").on("change", "[name='service']", function(){
         var me = $(this);
@@ -124,11 +137,11 @@ $(function(){
                     currentPrice *= discount;
                 currentPrice *= kurs;
                 checkedPrice.data("price", currentPrice);
-                sumPrice.html(Math.round(currentSum + currentPrice));
+                sumPrice.html(getFormatedPrice(currentSum + currentPrice));
             }
             else{
                 checkedPrice.data("price", 0);
-                sumPrice.html(Math.round(currentSum));
+                sumPrice.html(getFormatedPrice(currentSum));
             }
         }
     });

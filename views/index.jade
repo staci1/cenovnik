@@ -6,17 +6,17 @@ block content
         h1= title
     div.block
         div.inline-block
-            span Partner name:
+            span.column1 Partner name:
             input#discount(value=partner_name, disabled=true)
         div.inline-block
-            span Nubmer of employees:
+            span.column2 Number of employees:
             input#numEmployees(value="20", type="number")
     div.block
         div.inline-block
-            span Discount:
+            span.column1 Discount:
             input#discount(value=`${discount}%`, disabled=true)
         div.inline-block
-            span Type of payment:
+            span.column2 Type of payment:
             div(class="btn-group", data-toggle="buttons")
               label.btn.btn-primary.active
                 input(type="radio", name="payment", autocomplete="off", value="onetime", checked=true)
@@ -25,7 +25,7 @@ block content
                 input(type="radio", name="payment", autocomplete="off", value="monthly")
                 | Monthly
         div.inline-block#currency
-            span Currency:
+            span.column3 Currency:
             div(class="btn-group", data-toggle="buttons")
               label.btn.btn-primary.active
                 input(type="radio", name="currency", autocomplete="off", value="euro", checked=true)
@@ -59,6 +59,25 @@ block content
                     th Monthly
             tbody
     button#export Export
+    button#help(data-toggle="modal" data-target="#helpModal") Help
+    #helpModal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            h4 Упатство за употреба
+          .modal-body
+            ol
+              li Внесувате број на вработени за клиентот
+              li Бирате начин на плаќање: месечно или годишно
+              li Бирате валута: денари или евра
+              li Со клик на името на производот, добивате брошура со ваше лого во .pdf формат
+              li
+                | На десен клик на името на производот, добивате линк до брошурата за праќање до клиенти
+              li Штиклирате за кои производи е заинтересиран клиентот
+              li Бараните цени према вас се означени со плаво
+              li На копчето “Export”, ги добивате партнерските цени во .csv формат.
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
     script.
         var services = !{services}
         var discount = (100 - !{discount})/100

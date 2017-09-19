@@ -21,7 +21,11 @@ body {
 }
 
 .btn-group{
-  margin-left: 20px;
+    margin-left: 10px;
+}
+
+.btn-group label{
+    width: 80px;
 }
 
 .block{
@@ -34,11 +38,27 @@ body {
 }
 
 .inline-block span{
-    min-width: 100px;
+    display: inline-block;
+}
+
+.column1{
+    width: 100px;
+}
+
+.column2{
+    width: 150px;
+}
+
+.column3{
+    width: 70px;
 }
 
 .block input{
     margin-left: 10px;
+}
+
+#price-tbl th, td:not(:nth-child(2)) {
+    text-align: center;
 }
 
 #price-tbl .checkbox{
@@ -47,7 +67,6 @@ body {
 }
 
 #price-row {
-    /*background-color: #A0A0A0;*/
     font-weight: bold;
 }
 
@@ -55,13 +74,23 @@ body {
     background-color: #d9edf7;
 }
 
+#help {
+    margin-left: 20px;
+}
+
+@media screen and (max-width: 1314px) {
+    #currency {
+        margin-top: 20px;
+    }
+
+    .column3{
+        width: 100px;
+    }
+}
+
 @media screen and (max-width: 914px) {
     .block > :first-child {
         margin-bottom: 20px;
-    }
-
-    #currency {
-        margin-top: 20px;
     }
 
     .title>h1{
@@ -72,6 +101,10 @@ body {
     #logo {
         width: 166px;
         height: 66px;
+    }
+
+    .inline-block span{
+        width: 150px;
     }
 }
 
