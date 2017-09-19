@@ -42,7 +42,7 @@ function changeAllPrices(numEmployees, kurs){
 }
 
 function getFormatedPrice(num){
-    return Math.round(num).toLocaleString('mk-MK', {maximumFractionDigits:2});
+    return Math.round(num).toLocaleString('sr', {maximumFractionDigits:2});
 }
 
 
