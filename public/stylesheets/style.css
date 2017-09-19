@@ -16,7 +16,6 @@ body {
 
 #logo {
     display: inline;
-    width: 196px;
     height: 96px;
 }
 
@@ -99,7 +98,6 @@ body {
     }
 
     #logo {
-        width: 166px;
         height: 66px;
     }
 
@@ -116,7 +114,6 @@ body {
 
     #logo {
         display: inline;
-        width: 126px;
         height: 46px;
     }
 }
@@ -129,7 +126,6 @@ body {
 
     #logo {
         display: inline;
-        width: 90px;
         height: 40px;
     }
 }
