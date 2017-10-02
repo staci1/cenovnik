@@ -68,6 +68,10 @@ body {
     margin-left: 20px;
 }
 
+.note{
+    margin-top: 20px;
+}
+
 @media screen and (max-width: 992px) {
     .column3{
         width: 100px;
