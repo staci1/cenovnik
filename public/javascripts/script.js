@@ -82,7 +82,7 @@ $(function(){
         var numEmployees = parseInt($(this).val());
         var kurs = 1;
         if($('[name="currency"]:checked').val() === "mkd"){
-            kurs = 61.695;
+            kurs = 61.5;
         }
         changeAllPrices(numEmployees, kurs);
     });
