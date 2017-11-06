@@ -4,7 +4,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel ./public/javascripts/script.js --out-file public/javascripts/dist/script.js",
+    "build": "babel ./public/javascripts/script.js --out-file public/javascripts/dist/script.js && babel ./public/javascripts/script1.js --out-file public/javascripts/dist/script1.js",
     "start": "npm run build && node ./bin/www"
   },
   "repository": {

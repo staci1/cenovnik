@@ -5,10 +5,16 @@ block content
         img#logo(src=`images/${logo}`)
         h1= title
     div#block.row
-        div.col-md-12
+        div.col-md-4.col-sm-6.col-xs-12
+            span.column1 Partner name:
+            input#discount(value=partner_name, disabled=true)
+        div.col-md-8.col-sm-6.col-xs-12
             span.column2 Number of employees:
             input#numEmployees(value="20", type="number")
-        div.col-lg-6
+        div.col-md-4.col-sm-6.col-xs-12
+            span.column1 Discount:
+            input#discount(value=`${discount}%`, disabled=true)
+        div.col-lg-4.col-md-8.col-sm-6.col-xs-12
             span.column2 Type of payment:
             div(class="btn-group buttons", data-toggle="buttons")
               label.btn.btn-primary.active
@@ -17,7 +23,7 @@ block content
               label.btn.btn-primary
                 input(type="radio", name="payment", autocomplete="off", value="monthly")
                 | Monthly
-        div.col-lg-6
+        div.col-lg-4.col-md-12
             span.column3 Currency:
             div(class="btn-group buttons", data-toggle="buttons")
               label.btn.btn-primary.active
@@ -33,14 +39,20 @@ block content
                     th #
                     th VapourApps Product
                     th(colspan="3") VapourApps Regular
+                    th(colspan="3") VapourApps Partner
                 tr
                     th
                     th
                     th(colspan="2") First year (one of two options)
                     th After 12 months
+                    th(colspan="2") First year (one of two options)
+                    th After 12 months
                 tr
                     th
                     th
+                    th OneTime
+                    th Monthly
+                    th Monthly
                     th.highlight-col.onetime-head OneTime
                     th.monthly-head Monthly
                     th Monthly
@@ -58,27 +70,27 @@ block content
                 a(href='#', id='eng') EN
           .modal-body
             ol#mk
-                li Внесувате број на вработени за клиентот
-                li Бирате начин на плаќање: месечно или годишно
-                li Одбирате валута: денари или евра
-                li Со клик на името на производот, добивате брошура во .pdf формат
-                li На десен клик на името на производот, добивате линк до брошурата за праќање
-                li Штиклирате за кои производи сте заинтересирани
-                li Бараните цени према вас се означени со плаво
-                li На копчето “Export”, ги добивате цените во .csv формат.
+              li Внесувате број на вработени за клиентот
+              li Бирате начин на плаќање: месечно или годишно
+              li Одбирате валута: денари или евра
+              li Со клик на името на производот, добивате брошура со ваше лого во .pdf формат
+              li На десен клик на името на производот, добивате линк до брошурата за праќање до клиенти
+              li Штиклирате за кои производи е заинтересиран клиентот
+              li Бараните цени према вас се означени со плаво
+              li На копчето “Export”, ги добивате партнерските цени во .csv формат.
             ol#en
-                li Enter the number of employees
+                li Enter number of employees for the client
                 li Choose a payment method: monthly or yearly
                 li Choose currency: denars or euros
-                li By clicking on the product name, you get a brochure in .pdf format
-                li Right click on the product name, get a link to the brochure to send
-                li Check for which products you are interested
-                li The requested prices for you are marked with blue
-                li On the "Export" button, you get the prices in .csv format
+                li By clicking on the product name, you get a brochure with your logo in .pdf format
+                li Right click on the product name, get a link to the brochure for sending to customers
+                li Check for which products the client is interested
+                li Requested prices are marked with blue
+                li On the "Export" button, you receive partner prices in .csv format
           .modal-footer
             button.btn.btn-default(type='button', data-dismiss='modal') Close
     script.
         var services = !{services}
-
+        var discount = (100 - !{discount})/100
 block scripts
-    script(src="javascripts/dist/script1.js")
+    script(src="javascripts/dist/script.js")

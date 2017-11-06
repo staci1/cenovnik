@@ -47,11 +47,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/pricing', function(req, res, next) {
+    var obj = partnersObj['pricing'];
+    res.render('index', { title: 'Product Configurator', logo: obj.logo, services: JSON.stringify(obj.services) });
+});
+
 app.use('/', router.get('/:id', function(req, res, next) {
     var id = req.params.id;
     if(id in partnersObj){
         var obj = partnersObj[id];
-        res.render('index', { title: 'VapourApps Product Configurator', partner_name: obj.name, discount: obj.discount, logo: obj.logo, services: JSON.stringify(obj.services) });
+        res.render('partners', { title: 'VapourApps Product Configurator', partner_name: obj.name, discount: obj.discount, logo: obj.logo, services: JSON.stringify(obj.services) });
     }else{
         var err = new Error('Not Found');
         err.status = 404;

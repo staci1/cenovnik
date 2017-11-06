@@ -72,6 +72,14 @@ body {
     margin-top: 20px;
 }
 
+.modal-header h4 {
+    display: inline;
+}
+
+.modal-header a {
+    margin-right: 5px;
+}
+
 @media screen and (max-width: 992px) {
     .column3{
         width: 100px;

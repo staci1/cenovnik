@@ -1,4 +1,4 @@
-var klasi = ['onetime', 'monthly', 'afteryear', 'onetimeP', 'monthlyP', 'afteryearP'];
+var klasi = ['onetime', 'monthly', 'afteryear'];
 
 function getOneTimePrice(m){
     return m * 12 * 0.85;
@@ -28,8 +28,6 @@ function changeAllPrices(numEmployees, kurs){
             }else if(klasa.indexOf('afteryear') > -1){
                 currentPrice = (monthly / 2) + ((numEmployees - 20) * q);
             }
-            if(klasa.slice(-1) === 'P')
-                currentPrice *= discount;
             currentPrice *= kurs;
             if($('#' + i).data("checked") === 1){
                 sum += currentPrice;
@@ -59,24 +57,18 @@ $(function(){
                     <label><input type="checkbox" name="service" value=${i}><a href="${service.brochure_url}" target="_blank"">${service.name}</a></label>
                 </div>
             </td>
-            <td class="onetime" data-price=0>${getFormatedPrice(getOneTimePrice(monthly))}</td>
+            <td class="onetime highlight-col" data-price=0>${getFormatedPrice(getOneTimePrice(monthly))}</td>
             <td class="monthly" data-price=0>${getFormatedPrice(monthly)}</td>
             <td class="afteryear" data-price=0>${getFormatedPrice(monthly / 2)}</td>
-            <td class="onetimeP highlight-col" data-price=0>${getFormatedPrice(getOneTimePrice(monthly) * discount)}</td>
-            <td class="monthlyP" data-price=0>${getFormatedPrice(monthly * discount)}</td>
-            <td class="afteryearP" data-price=0>${getFormatedPrice((monthly/ 2) * discount)}</td></tr>
         `);
     }
     tbody.append(`
         <tr id="price-row">
             <td></td>
             <td>Sum</td>
-            <td data-klasa='onetime' class='price'>0</td>
-            <td data-klasa='monthly' class='price'>0</td>
+            <td data-klasa='onetime' class='price highlight-col onetime-head'>0</td>
+            <td data-klasa='monthly' class='price monthly-head'>0</td>
             <td data-klasa='afteryear' class='price'>0</td>
-            <td data-klasa='onetimeP' class='price highlight-col onetime-head'>0</td>
-            <td data-klasa='monthlyP' class='price monthly-head'>0</td>
-            <td data-klasa='afteryearP' class='price'>0</td>
         </tr>
     `);
     $('#numEmployees').focusout(function(){
@@ -134,8 +126,6 @@ $(function(){
                 }else if(klasa.indexOf('afteryear') > -1){
                     currentPrice = (monthly / 2) + ((numEmployees - 20) * q);
                 }
-                if(klasa.slice(-1) === 'P')
-                    currentPrice *= discount;
                 currentPrice *= kurs;
                 checkedPrice.data("price", currentPrice);
                 sumPrice.html(getFormatedPrice(currentSum + currentPrice));
@@ -148,11 +138,11 @@ $(function(){
     });
     $('[name="payment"]').change(function(e){
         if(e.target.value === "monthly"){
-            $('.onetimeP, .onetime-head').removeClass('highlight-col');
-            $('.monthlyP, .monthly-head').addClass('highlight-col');
+            $('.onetime, .onetime-head').removeClass('highlight-col');
+            $('.monthly, .monthly-head').addClass('highlight-col');
         }else{
-            $('.monthlyP, .monthly-head').removeClass('highlight-col');
-            $('.onetimeP, .onetime-head').addClass('highlight-col');
+            $('.monthly, .monthly-head').removeClass('highlight-col');
+            $('.onetime, .onetime-head').addClass('highlight-col');
         }
     });
     $('[name="currency"]').change(function(e){
