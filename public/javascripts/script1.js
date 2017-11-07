@@ -182,10 +182,12 @@ $(function(){
         e.preventDefault();
         $('#mk').show();
         $('#en').hide();
+        $('#modal-title').html("Упатство за употреба");
     });
     $('#eng').click(function(e){
         e.preventDefault();
         $('#en').show();
         $('#mk').hide();
+        $('#modal-title').html("User guide");
     });
 });
